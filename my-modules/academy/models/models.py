@@ -9,14 +9,14 @@ class Teachers(models.Model):
     name = fields.Char()
     biography = fields.Html()
 
-    """Также должна быть возможность создавать новые курсы прямо со страницы учителя или видеть все курсы,
-         которые они преподают, поэтому добавьте обратную зависимость к модели учителя:"""
+    """It should also be possible to create new courses directly from the teacher's page or see all courses,
+          which they teach, so add the inverse dependency to the teacher model:"""
     course_ids = fields.One2many('academy.courses', 'teacher_id', string="Courses")
 
 
 class Courses(models.Model):
-    """У каждого курса должно быть поле учитель, связанное с одной записью учителя,
-        но каждый учитель может вести несколько курсов"""
+    """Each course must have a teacher field associated with one teacher record,
+         but each teacher can teach several courses"""
     _name = 'academy.courses'
     _inherit = 'mail.thread'
 
