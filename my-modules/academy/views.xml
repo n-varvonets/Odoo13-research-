@@ -69,6 +69,12 @@
                     <label for="teacher_id"/>
                     <field name="teacher_id"/>
                 </sheet>
+                <!-- added "Discussions and notifications" but i can't see where
+                 At the bottom of each course form, there is now a discussion thread-->
+                <div class="oe_chatter">
+                  <field name="message_follower_ids" widget="mail_followers"/>
+                  <field name="message_ids" widget="mail_thread"/>
+                </div>
             </form>
         </field>
     </record>
