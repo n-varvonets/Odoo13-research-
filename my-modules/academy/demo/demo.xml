@@ -12,6 +12,31 @@
         <record id="vau" model="academy.teachers">
             <field name="name"> Vaughn</field>
         </record>
+
+        <record id="course0" model="product.template">
+            <field name="name">Course 0</field>
+            <field name="teacher_id" ref="padilla"/>
+            <field name="public_categ_ids" eval="[(4, ref('academy.category_courses'), False)]"/>
+            <field name="is_published">True</field>
+            <field name="list_price" type="float">0</field>
+            <field name="type">service</field>
+        </record>
+        <record id="course1" model="product.template">
+            <field name="name">Course 1</field>
+            <field name="teacher_id" ref="padilla"/>
+            <field name="public_categ_ids" eval="[(4, ref('academy.category_courses'), False)]"/>
+            <field name="is_published">True</field>
+            <field name="list_price" type="float">0</field>
+            <field name="type">service</field>
+        </record>
+        <record id="course2" model="product.template">
+            <field name="name">Course 2</field>
+            <field name="teacher_id" ref="vaughn"/>
+            <field name="public_categ_ids" eval="[(4, ref('academy.category_courses'), False)]"/>
+            <field name="is_published">True</field>
+            <field name="list_price" type="float">0</field>
+            <field name="type">service</field>
+        </record>
 <!--
           <record id="object0" model="academy.academy">
             <field name="name">Object 0</field>

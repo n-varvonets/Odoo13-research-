@@ -79,11 +79,20 @@
         </field>
     </record>
 
+
     <menuitem sequence="0" id="menu_academy" name="Academy_01"/>
     <menuitem id="menu_teachers" parent="menu_academy"
               name="Academy Teachers"/>
     <menuitem id="menu_courses" parent="menu_academy"
-              name="Academy Courses"/>
+              action="action_academy_teachers"/>
+<!--              name="Academy Courses"/>-->
+
+    <!-- <menuitem sequence="0" id="menu_academy" name="Academy"/>-->
+<!--  <menuitem id="menu_academy_content" parent="menu_academy"-->
+<!--            name="Academy Content"/>-->
+<!--  <menuitem id="menu_academy_content_teachers"-->
+<!--            parent="menu_academy_content"-->
+<!--            action="action_academy_teachers"/>-->
 
     <menuitem id="menu_academy_content_courses"
               parent="menu_teachers"

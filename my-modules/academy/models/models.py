@@ -11,14 +11,17 @@ class Teachers(models.Model):
 
     """It should also be possible to create new courses directly from the teacher's page or see all courses,
           which they teach, so add the inverse dependency to the teacher model:"""
-    course_ids = fields.One2many('academy.courses', 'teacher_id', string="Courses")
+    # course_ids = fields.One2many('academy.courses', 'teacher_id', string="Courses")
+    course_ids = fields.One2many('product.template', 'teacher_id', string="Courses")
+
 
 
 class Courses(models.Model):
     """Each course must have a teacher field associated with one teacher record,
          but each teacher can teach several courses"""
-    _name = 'academy.courses'
-    _inherit = 'mail.thread'
+    # _name = 'academy.courses'
+    # _inherit = 'mail.thread'
+    _inherit = 'product.template'
 
     name = fields.Char()
     teacher_id = fields.Many2one('academy.teachers', string="Teacher")
