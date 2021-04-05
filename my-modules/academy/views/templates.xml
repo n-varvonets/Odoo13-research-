@@ -2,7 +2,7 @@
     <data>
         <template id="index">
             <t t-call="website.layout">
-                <t t-set="title">Academy</t>
+                <t t-set="title">Aca!!!demy</t>
                 <div class="oe_structure">
                     <div class="container">
                         <t t-foreach="teachers" t-as="teacher">

@@ -16,8 +16,9 @@ class Teachers(models.Model):
 
 class Courses(models.Model):
     """У каждого курса должно быть поле учитель, связанное с одной записью учителя,
-    но каждый учитель может вести несколько курсов"""
+        но каждый учитель может вести несколько курсов"""
     _name = 'academy.courses'
+    _inherit = 'mail.thread'
 
     name = fields.Char()
     teacher_id = fields.Many2one('academy.teachers', string="Teacher")
