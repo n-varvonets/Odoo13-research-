@@ -55,3 +55,24 @@ class Session(models.Model):  # a session is an occurrence of a course taught at
                 r.taken_seats = 0.0
             else:
                 r.taken_seats = 100.0 * len(r.attendee_ids) / r.seats
+
+    # is used in the user interface, to automatically change some field values when other fields are changed
+
+
+    #  Add an explicit onchange to warn about invalid values, like a negative number of seats, or more participants than seats.
+    @api.onchange('seats', 'attendee_ids')
+    def _verify_valid_seats(self):
+        if self.seats < 0:
+            return {
+                'warning': {
+                    'title': "Incorrect 'seats' value",
+                    'message': "The number of available seats may not be negative",
+                },
+            }
+        if self.seats < len(self.attendee_ids):
+            return {
+                'warning': {
+                    'title': "Too many attendees",
+                    'message': "Increase seats or remove excess attendees",
+                },
+            }
