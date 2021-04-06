@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-import random
 from odoo import models, fields, api
 
 
@@ -7,10 +6,12 @@ class ComputedModel(models.Model):
     _name = 'test.computed'
 
     name = fields.Char(compute='_compute_name')  # computed on-the-fly by calling a method of the model.
+    value = fields.Integer()
 
+    @api.depends('value')  # The ORM expects the developer to specify those dependencies on the compute method with the decorator depends()
     def _compute_name(self):
         for record in self:
-            record.name = str(random.randint(1, 100))
+            record.name = "Record with value %s" % record.value
 
 
 class Course(models.Model):
@@ -39,18 +40,17 @@ class Session(models.Model):  # a session is an occurrence of a course taught at
                                     domain=['|', ('instructor', '=', True),
                                             ('category_id.name', 'ilike', "Teacher")])  # domain - When selecting the instructor for a Session, only instructors (partners with instructor set to True) should be visible
 
-
     course_id = fields.Many2one('openacademy.course',
                                 ondelete='cascade', string="Course", required=True)  # A session is related to a course; the value of that field is a record of the model openacademy.course and is required.
 
     attendee_ids = fields.Many2many('res.partner', string="Attendees")  # to relate every session to a set of attendees. Attendees will be represented by partner records, so we will relate to the built-in model res.partner.
 
-#     name = fields.Char()
-#     value = fields.Integer()
-#     value2 = fields.Float(compute="_value_pc", store=True)
-#     description = fields.Text()
-#
-#     @api.depends('value')
-#     def _value_pc(self):
-#         for record in self:
-#             record.value2 = float(record.value) / 100
+    taken_seats = fields.Float(string="Taken seats", compute='_taken_seats')
+
+    @api.depends('seats', 'attendee_ids')  # Add the percentage of taken seats
+    def _taken_seats(self):
+        for r in self:
+            if not r.seats:
+                r.taken_seats = 0.0
+            else:
+                r.taken_seats = 100.0 * len(r.attendee_ids) / r.seats
