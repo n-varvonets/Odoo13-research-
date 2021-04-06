@@ -24,7 +24,11 @@ class Session(models.Model):  # a session is an occurrence of a course taught at
     duration = fields.Float(digits=(6, 2), help="Duration in days")  # плавающей запятой: 6 - это общее количество цифр, а 2 - количество цифр после запятой. Обратите внимание, что в результате количество цифр перед запятой составляет максимум 4
     seats = fields.Integer(string="Number of seats")
 
-    instructor_id = fields.Many2one('res.partner', string="Instructor")  # A session has an instructor; the value of that field is a record of the built-in model res.partner
+    instructor_id = fields.Many2one('res.partner', string="Instructor",
+                                    domain=['|', ('instructor', '=', True),
+                                            ('category_id.name', 'ilike', "Teacher")])  # domain - When selecting the instructor for a Session, only instructors (partners with instructor set to True) should be visible
+
+
     course_id = fields.Many2one('openacademy.course',
                                 ondelete='cascade', string="Course", required=True)  # A session is related to a course; the value of that field is a record of the model openacademy.course and is required.
 
