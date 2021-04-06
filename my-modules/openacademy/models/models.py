@@ -1,6 +1,17 @@
 # -*- coding: utf-8 -*-
-
+import random
 from odoo import models, fields, api
+
+
+class ComputedModel(models.Model):
+    _name = 'test.computed'
+
+    name = fields.Char(compute='_compute_name')  # computed on-the-fly by calling a method of the model.
+
+    def _compute_name(self):
+        for record in self:
+            record.name = str(random.randint(1, 100))
+
 
 class Course(models.Model):
     _name = 'openacademy.course'   # то как найти данный класс/модель/таблицу именно для связи с бд
