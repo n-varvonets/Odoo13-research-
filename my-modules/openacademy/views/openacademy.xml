@@ -2,7 +2,7 @@
 <odoo>
 
     <record model="ir.ui.view" id="course_form_view">
-        <field name="name">course.form(name)</field>
+        <field name="name">course.form(name_01)</field>
         <field name="model">openacademy.course</field>
         <field name="arch" type="xml">
             <form string="Course Form">
@@ -12,13 +12,19 @@
                         <!-- <field name="description"/> - так было изначально и поле group  просто выводит в бд как
                          столбцы таблицы, но для примера ниже продеманстрирую вкладку notebook(чтобы позже было проще
                           добавить другие вкладки, содержащие дополнительную информацию.) -->
+                        <field name="responsible_id"/>
                     </group>
                     <notebook>
                         <page string="Description">
                             <field name="description"/>
                         </page>
-                        <page string="About">
-                            This is an example of notebooks
+                        <page string="Sessions">
+                            <field name="session_ids">
+                                <tree string="Registered sessions">
+                                    <field name="name"/>
+                                    <field name="instructor_id"/>
+                                </tree>
+                            </field>
                         </page>
                     </notebook>
                 </sheet>
@@ -28,7 +34,7 @@
 
     <!--Разрешить поиск курсов по названию или описанию.-->
     <record model="ir.ui.view" id="course_search_view">
-        <field name="name">course.search(name)</field>
+        <field name="name">course.search(name_02)</field>
         <field name="model">openacademy.course</field>
         <field name="arch" type="xml">
             <search>
@@ -38,13 +44,25 @@
         </field>
     </record>
 
+    <!-- override the automatically generated list view for courses -->
+    <record model="ir.ui.view" id="course_tree_view">
+        <field name="name">course.tree(name_03)</field>
+        <field name="model">openacademy.course</field>
+        <field name="arch" type="xml">
+            <tree string="Course Tree">
+                <field name="name"/>
+                <field name="responsible_id"/>
+            </tree>
+        </field>
+    </record>
+
     <!-- window action -->
     <!--
         The following tag is an action definition for a "window action",
         that is an action opening a view or a set of views
     -->
     <record model="ir.actions.act_window" id="course_list_action">
-        <field name="name">Courses</field>
+        <field name="name">Courses(name_04)</field>
         <field name="res_model">openacademy.course</field>
         <field name="view_mode">tree,form</field>
         <field name="help" type="html">
@@ -69,23 +87,46 @@
          It is not required when it is the same module -->
 
 
-
-
     <!-- session form view -->
     <record model="ir.ui.view" id="session_form_view">
-        <field name="name">session.form</field>
+        <field name="name">session.form(name_05)</field>
         <field name="model">openacademy.session</field>
         <field name="arch" type="xml">
             <form string="Session Form">
                 <sheet>
                     <group>
-                        <field name="name"/>
-                        <field name="start_date"/>
-                        <field name="duration"/>
-                        <field name="seats"/>
+                        <!--                        <field name="name"/>-->
+                        <!--                        <field name="start_date"/>-->
+                        <!--                        <field name="duration"/>-->
+                        <!--                        <field name="seats"/>-->
+                        <!--                        с добавлением relation field нужно отрефакторить  устаревший вид данных-->
+                        <group string="General">
+                            <field name="course_id"/>
+                            <field name="name"/>
+                            <field name="instructor_id"/>
+                        </group>
+                        <group string="Schedule">
+                            <field name="start_date"/>
+                            <field name="duration"/>
+                            <field name="seats"/>
+                        </group>
                     </group>
+                    <label for="attendee_ids"/>
+                    <field name="attendee_ids"/>
                 </sheet>
             </form>
+        </field>
+    </record>
+
+    <!-- session tree/list view -->
+    <record model="ir.ui.view" id="session_tree_view">
+        <field name="name">session.tree(name_06)</field>
+        <field name="model">openacademy.session</field>
+        <field name="arch" type="xml">
+            <tree string="Session Tree">
+                <field name="name"/>
+                <field name="course_id"/>
+            </tree>
         </field>
     </record>
 
