@@ -135,6 +135,14 @@ class Session(models.Model):  # a session is an occurrence of a course taught at
             # so add one day to get 5 days instead
             r.duration = (r.end_date - r.start_date).days + 1
 
+    attendees_count = fields.Integer(
+        string="Attendees count", compute='_get_attendees_count', store=True)
+
+    @api.depends('attendee_ids')
+    def _get_attendees_count(self):
+        for r in self:
+            r.attendees_count = len(r.attendee_ids)
+
     @api.constrains('instructor_id',
                     'attendee_ids')  # the constraint is automatically evaluated when one of them is modified.
     def _check_instructor_not_in_attendees(self):
