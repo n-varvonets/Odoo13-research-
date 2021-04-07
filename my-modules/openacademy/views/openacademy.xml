@@ -40,7 +40,7 @@
             <search>
                 <field name="name"/>
                 <field name="description"/>
-<!--                в поиске можно добавить фильтрацию по имени и описанию. Ниже нужно добавить кнопку(name="context") по умолчанию-->
+                <!--                в поиске можно добавить фильтрацию по имени и описанию. Ниже нужно добавить кнопку(name="context") по умолчанию-->
                 <filter name="my_courses" string="My Courses"
                         domain="[('responsible_id', '=', uid)]"/>
                 <group string="Group By">
@@ -72,7 +72,8 @@
         <field name="name">Courses(name_04)</field>
         <field name="res_model">openacademy.course</field>
         <field name="view_mode">tree,form</field>
-        <field name="context" eval="{'search_default_my_courses': 1}"/><!--Make it selected by default.Add a button to group courses by responsible user. Search View-->
+        <field name="context"
+               eval="{'search_default_my_courses': 1}"/><!--Make it selected by default.Add a button to group courses by responsible user. Search View-->
         <field name="help" type="html">
             <p class="o_view_nocontent_smiling_face">Create the first course
             </p>
@@ -155,10 +156,22 @@
         </field>
     </record>
 
+    <!--    add the gantt view to the Session model’s action-->
+    <record model="ir.ui.view" id="session_gantt_view">
+        <field name="name">session.gantt</field>
+        <field name="model">openacademy.session</field>
+        <field name="arch" type="xml">
+            <gantt string="Session Gantt"
+                   date_start="start_date" date_stop="end_date"
+                   default_group_by='instructor_id'>
+            </gantt>
+        </field>
+    </record>
+
     <record model="ir.actions.act_window" id="session_list_action">
         <field name="name">Sessions</field>
         <field name="res_model">openacademy.session</field>
-        <field name="view_mode">tree,form,calendar</field>
+        <field name="view_mode">tree,form,calendar,gantt</field>
     </record>
 
     <menuitem id="session_menu" name="Sessions"
