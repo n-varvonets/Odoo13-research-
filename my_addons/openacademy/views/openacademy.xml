@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <!--    Create your own form view for the Course object. это уже та таблица, которая отображается после нажатия на курс, в которой можно добавлять табы -->
+    <record model="ir.ui.view" id="course_form_view">
+        <field name="name">course.form</field>
+        <field name="model">openacademy.course</field>
+        <field name="arch" type="xml">
+            <form string="Course Form(123)">
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                        <field name="description"/>
+                    </group>
+                    <!-- наши табы внутри формы http://i.imgur.com/cvKfhHt.png-->
+                    <notebook>
+                        <page string="Description">
+                            и внутри помещаем значение >field name="description"/>
+                            <field name="description"/>
+                        </page>
+                        <page string="About">
+                            This is an example of notebooks
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!--    то как будет отображаться основная форма вкладки курсов академии http://i.imgur.com/9Ep0L2W.png-->
+    <record model="ir.ui.view" id="course_tree_view">
+        <field name="name">course.tree</field>
+        <field name="model">openacademy.course</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name"/>
+                <field name="description"/>
+            </tree>
+        </field>
+    </record>
+
+    <!--    search view for form course. поиск на основной страннице по двум категориям http://i.imgur.com/EaYrJ4S.png-->
+    <record model="ir.ui.view" id="course_search_view">
+        <field name="name">course.search</field>
+        <field name="model">openacademy.course</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="description"/>
+            </search>
+        </field>
+    </record>
+
+
+    <!-- window action -->
+    <!--
+        The following tag is an action definition for a "window action",
+        that is an action opening a view or a set of views
+    -->
+
+    <record model="ir.actions.act_window" id="course_list_action">
+        <field name="name">Courses(title of all table)</field>
+        <field name="res_model">openacademy.course</field>
+        <field name="view_mode">tree,form</field>
+        <!--        последовательность иммет значение(что раньше, так и раньше будет отображаться).. +  без формы не
+        будет переходит при нажатии на курс на другую страницу  так выглядит форма - http://i.imgur.com/MHwH8hY.png,
+             http://i.imgur.com/MHwH8hY.png,  а вот так три - http://i.imgur.com/vXbG7pC.png-->
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Create the first course(Where are u?)
+            </p>
+        </field>
+    </record>
+
+    <!-- top level menu: no parent -->
+    <menuitem id="main_openacademy_menu" name="Open Academy(main)"
+              groups="group_openacademy_manager"/>
+    <!-- A first level in the left side menu is needed
+         before using action= attribute -->
+    <menuitem id="openacademy_menu" name="Open Academy(tab)"
+              groups="group_openacademy_manager"
+              parent="main_openacademy_menu"/>
+    <!-- the following menuitem should appear *after*
+         its parent openacademy_menu and *after* its
+         action course_list_action -->
+    <menuitem id="courses_menu" name="Courses(pod.tab)" parent="openacademy_menu"
+              groups="group_openacademy_manager"
+              action="course_list_action"/>
+    <!-- Full id location:
+         action="openacademy.course_list_action"
+         It is not required when it is the same module -->
+
+</odoo>

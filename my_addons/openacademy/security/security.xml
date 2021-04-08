@@ -1,0 +1,9 @@
+<odoo>
+<!--base.group_user-->
+
+        <record model="res.groups" id="group_openacademy_manager">
+            <field name="name">OpenAcademy / Manager</field>
+        </record>
+
+
+</odoo>
