@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <odoo>
 
+    <!--    FOR CLASS COURSE IN models.py -->
+
     <!--    Create your own form view for the Course object. это уже та таблица, которая отображается после нажатия на курс, в которой можно добавлять табы -->
     <record model="ir.ui.view" id="course_form_view">
         <field name="name">course.form</field>
@@ -11,6 +13,7 @@
                     <group>
                         <field name="name"/>
                         <field name="description"/>
+                        <field name="responsible_id"/><!--   http://i.imgur.com/ceJC9TG.png-->
                     </group>
                     <!-- наши табы внутри формы http://i.imgur.com/cvKfhHt.png-->
                     <notebook>
@@ -35,6 +38,7 @@
             <tree>
                 <field name="name"/>
                 <field name="description"/>
+                <field name="responsible_id"/>
             </tree>
         </field>
     </record>
@@ -47,6 +51,7 @@
             <search>
                 <field name="name"/>
                 <field name="description"/>
+                <field name="responsible_id"/>
             </search>
         </field>
     </record>
@@ -58,6 +63,7 @@
         that is an action opening a view or a set of views
     -->
 
+    <!--    это то, как будет отображаться основная таблица https://i.imgur.com/IL1g7gR.png -->
     <record model="ir.actions.act_window" id="course_list_action">
         <field name="name">Courses(title of all table)</field>
         <field name="res_model">openacademy.course</field>
@@ -88,5 +94,65 @@
     <!-- Full id location:
          action="openacademy.course_list_action"
          It is not required when it is the same module -->
+
+
+    <!--    FOR CLASS SESSION IN models.py -->
+
+    <!-- session form view -->
+    <record model="ir.ui.view" id="session_form_view">
+        <field name="name">session.form</field>
+        <field name="model">openacademy.session</field>
+        <field name="arch" type="xml">
+            <form string="Session Form">
+                <sheet>
+
+<!-- таблица в форме отображается по группам к примеру http://i.imgur.com/gNH3rHX.png-->
+<!--                    <group>-->
+<!--                        <field name="name"/>-->
+<!--                        <field name="start_date"/>-->
+<!--                        <field name="duration"/>-->
+<!--                        <field name="seats"/>-->
+<!--                    </group>-->
+
+<!--                    сейчас же будет отображаться две группы -->
+                    <group string="General(first group in form of session)">
+                        <field name="course_id"/>
+                        <field name="name"/>
+                        <field name="instructor_id"/>
+                    </group>
+                    <group string="Schedule(2nd group in form of session)">
+                        <field name="start_date"/>
+                        <field name="duration"/>
+                        <field name="seats"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!--    превью(наше три сессиии)-->
+        <record model="ir.ui.view" id="course_tree_view">
+                <field name="name">course.tree</field>
+                <field name="model">openacademy.course</field>
+                <field name="arch" type="xml">
+                    <tree string="Course Tree">
+                        <field name="name"/>
+                        <field name="responsible_id"/><!-- если идти по документации, присутсвует внутри класса сессии -->
+<!--  <field name="course_id"/>&lt;!&ndash; если идти по видео, отутствует внутри класса сессии(в кслассе курса, хотя эта "три" принадлежит сессии) &ndash;&gt;-->
+                    </tree>
+                </field>
+            </record>
+
+    <!--    то как будет выглядит таблица сессии-->
+    <record model="ir.actions.act_window" id="session_list_action">
+        <field name="name">Sessions(name of whole table)</field>
+        <field name="res_model">openacademy.session</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem id="session_menu" name="Sessions(pod.tab in menu)"
+              parent="openacademy_menu"
+              groups="group_openacademy_manager"
+              action="session_list_action"/>
 
 </odoo>
