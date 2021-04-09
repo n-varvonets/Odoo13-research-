@@ -24,6 +24,15 @@
                         <page string="About">
                             This is an example of notebooks
                         </page>
+                        <page string="Sessions(in form of class Course with specify fields session_ids)">
+                                <field name="session_ids"> <!-- мы можем обращаться с формы курса к полям сессии(seats) т.к. мы юзаем М21-->
+                                    <tree string="Registered sessions">
+                                        <field name="name"/>
+                                        <field name="instructor_id"/>
+                                        <field name="seats"/>
+                                    </tree>
+                                </field>
+                            </page>
                     </notebook>
                 </sheet>
             </form>
@@ -35,7 +44,7 @@
         <field name="name">course.tree</field>
         <field name="model">openacademy.course</field>
         <field name="arch" type="xml">
-            <tree>
+            <tree string="Course Tree">
                 <field name="name"/>
                 <field name="description"/>
                 <field name="responsible_id"/>
@@ -106,15 +115,15 @@
             <form string="Session Form">
                 <sheet>
 
-<!-- таблица в форме отображается по группам к примеру http://i.imgur.com/gNH3rHX.png-->
-<!--                    <group>-->
-<!--                        <field name="name"/>-->
-<!--                        <field name="start_date"/>-->
-<!--                        <field name="duration"/>-->
-<!--                        <field name="seats"/>-->
-<!--                    </group>-->
+                    <!-- таблица в форме отображается по группам к примеру http://i.imgur.com/gNH3rHX.png-->
+                    <!--                    <group>-->
+                    <!--                        <field name="name"/>-->
+                    <!--                        <field name="start_date"/>-->
+                    <!--                        <field name="duration"/>-->
+                    <!--                        <field name="seats"/>-->
+                    <!--                    </group>-->
 
-<!--                    сейчас же будет отображаться две группы -->
+                    <!--                    сейчас же будет отображаться две группы -->
                     <group string="General(first group in form of session)">
                         <field name="course_id"/>
                         <field name="name"/>
@@ -125,23 +134,25 @@
                         <field name="duration"/>
                         <field name="seats"/>
                     </group>
+<!--     так выглядит лейбл на сайте - http://i.imgur.com/M59Xv6G.png-->
+                    <label for="attendee_ids"/>
+                    <field name="attendee_ids"/>
                 </sheet>
             </form>
         </field>
     </record>
 
     <!--    превью(наше три сессиии)-->
-        <record model="ir.ui.view" id="course_tree_view">
-                <field name="name">course.tree</field>
-                <field name="model">openacademy.course</field>
-                <field name="arch" type="xml">
-                    <tree string="Course Tree">
-                        <field name="name"/>
-                        <field name="responsible_id"/><!-- если идти по документации, присутсвует внутри класса сессии -->
-<!--  <field name="course_id"/>&lt;!&ndash; если идти по видео, отутствует внутри класса сессии(в кслассе курса, хотя эта "три" принадлежит сессии) &ndash;&gt;-->
-                    </tree>
-                </field>
-            </record>
+    <record model="ir.ui.view" id="session_tree_view">
+        <field name="name">session.tree</field>
+        <field name="model">openacademy.session</field>
+        <field name="arch" type="xml">
+            <tree string="Session Tree">
+                <field name="name"/>
+                <field name="course_id"/>
+            </tree>
+        </field>
+    </record>
 
     <!--    то как будет выглядит таблица сессии-->
     <record model="ir.actions.act_window" id="session_list_action">
