@@ -128,6 +128,7 @@
                         <field name="course_id"/>
                         <field name="name"/>
                         <field name="instructor_id"/>
+                        <field name="active"/>
                     </group>
                     <group string="Schedule(2nd group in form of session)">
                         <field name="start_date"/>

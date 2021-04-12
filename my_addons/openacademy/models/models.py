@@ -28,9 +28,10 @@ class Session(models.Model):
     _description = "OpenAcademy Sessions"
 
     name = fields.Char(required=True)
-    start_date = fields.Date()
+    start_date = fields.Date(default=fields.Date.today)
     duration = fields.Float(digits=(6, 2), help="Duration in days")
     seats = fields.Integer(string="Number of seats")
+    active = fields.Boolean(default=True)
 
     # у каждой сессии(прошлой,нынешный, следующие, паралелльной - many)  может быть только один ответсвенный за
     # ее проведения(ректор), а если новый  ректор, то у него будет свои сессии, но ректор ТОЛЬКО ОДИН поэтмоу Many2one
