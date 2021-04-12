@@ -90,6 +90,9 @@ class Session(models.Model):
 
     taken_seats = fields.Float(string="Taken seats", compute='_taken_seats')
     end_date = fields.Date(string="End Date", store=True, compute='_get_end_date', inverse='_set_end_date')
+    attendees_count = fields.Integer(
+        string="Attendees count", compute='_get_attendees_count', store=True)  # Graph views perform aggregations on
+    # database values, they do not work with non-stored computed fields.
 
     @api.depends('seats', 'attendee_ids')  # используется для подсчета на лету(не создавая запись в бд) новых полей, на основе полученных данных
     def _taken_seats(self):
@@ -98,6 +101,11 @@ class Session(models.Model):
                 r.taken_seats = 0.0
             else:
                 r.taken_seats = 100.0 * len(r.attendee_ids) / r.seats
+
+    @api.depends('attendee_ids')
+    def _get_attendees_count(self):
+        for r in self:
+            r.attendees_count = len(r.attendee_ids)
 
     @api.onchange('seats', 'attendee_ids')  # используют для перерасчета существющих полей, при изменение значении
     # одного из и оно будет будет исполняться автоматичекси(ненужно нигде укзывать) http://i.imgur.com/Q6K195a.png
