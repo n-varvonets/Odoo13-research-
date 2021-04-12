@@ -134,7 +134,8 @@
                         <field name="start_date"/>
                         <field name="duration"/>
                         <field name="seats"/>
-                        <field name="taken_seats" widget="progressbar"/><!--widget="progressbar" - то как будет отображаеться поле http://i.imgur.com/0tQbhjx.png-->
+                        <field name="taken_seats"
+                               widget="progressbar"/><!--widget="progressbar" - то как будет отображаеться поле http://i.imgur.com/0tQbhjx.png-->
                     </group>
                     <!-- так выглядит лейбл на сайте - http://i.imgur.com/M59Xv6G.png-->
                     <label for="attendee_ids"/>
@@ -149,20 +150,34 @@
         <field name="name">session.tree</field>
         <field name="model">openacademy.session</field>
         <field name="arch" type="xml">
-            <tree string="Session Tree">
+            <tree string="Session Tree" decoration-info="duration&lt;5" decoration-bf="duration==6"
+                  decoration-it="duration==14" decoration-warning="duration==15" decoration-danger="duration&gt;16">
+                <!--      http://i.imgur.com/e1Zf2yG.png        -->
                 <field name="name"/>
                 <field name="course_id"/>
+                <field name="duration" invisible="1"/>
                 <field name="taken_seats" widget="progressbar"/>
-
             </tree>
         </field>
     </record>
+
+    <!-- calendar view  http://i.imgur.com/Z9szPoa.png -->
+        <record model="ir.ui.view" id="session_calendar_view">
+            <field name="name">session.calendar</field>
+            <field name="model">openacademy.session</field>
+            <field name="arch" type="xml">
+                <calendar string="Session Calendar" date_start="start_date" date_stop="end_date" color="instructor_id">
+<!--                    колор - оду автоматичски подставит свой цвет каждому новому инструтору-->
+                    <field name="name"/>
+                </calendar>
+            </field>
+        </record>
 
     <!--    то как будет выглядит таблица сессии-->
     <record model="ir.actions.act_window" id="session_list_action">
         <field name="name">Sessions(name of whole table)</field>
         <field name="res_model">openacademy.session</field>
-        <field name="view_mode">tree,form</field>
+        <field name="view_mode">tree,form,calendar</field>
     </record>
 
     <menuitem id="session_menu" name="Sessions(pod.tab in menu)"

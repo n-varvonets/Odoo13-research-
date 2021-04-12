@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-
+from datetime import timedelta
 from odoo import models, fields, api, exceptions
 
 
@@ -89,6 +89,7 @@ class Session(models.Model):
     attendee_ids = fields.Many2many('res.partner', string="Attendees")
 
     taken_seats = fields.Float(string="Taken seats", compute='_taken_seats')
+    end_date = fields.Date(string="End Date", store=True, compute='_get_end_date', inverse='_set_end_date')
 
     @api.depends('seats', 'attendee_ids')  # используется для подсчета на лету(не создавая запись в бд) новых полей, на основе полученных данных
     def _taken_seats(self):
@@ -122,6 +123,27 @@ class Session(models.Model):
             if r.instructor_id and r.instructor_id in r.attendee_ids:  # первое условие проверяет что вообще существует иснтурктор, а второй - наличие его в посещаемых
                 raise exceptions.ValidationError("A session's instructor can't be an attendee")
 
+
+    @api.depends('start_date', 'duration')
+    def _get_end_date(self):
+        for r in self:
+            if not (r.start_date and r.duration):
+                r.end_date = r.start_date
+                continue
+
+            # Add duration to start_date, but: Monday(12ое) + 5 days = Saturday(17ое), а нужна пятница(16ое)
+            # so subtract one second to get on Friday instead. Собсна поэтому и вводим эти функции
+            duration = timedelta(days=r.duration, seconds=-1)
+            r.end_date = r.start_date + duration
+
+    def _set_end_date(self):
+        for r in self:
+            if not (r.start_date and r.end_date):
+                continue
+
+            # Compute the difference between dates, but: Friday(16ое) - Monday(12ое) = 4 days(но по факту прошло 5 дней),
+            # so add one day to get 5 days instead . Собсна поэтому и вводим эти функции
+            r.duration = (r.end_date - r.start_date).days + 1
 
 
 
