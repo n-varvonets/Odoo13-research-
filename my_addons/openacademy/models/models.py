@@ -22,6 +22,36 @@ class Course(models.Model):
     session_ids = fields.One2many(
         'openacademy.session', 'course_id', string="Sessions")
 
+    # Add sql restrains
+    # 1)CHECK that the course description and the course title are different
+    # 2)Make the Course’s name UNIQUE
+    _sql_constraints = [
+        ('name_description_check',
+         'CHECK(name != description)',
+         "The title of the course should not be the description"),  # http://i.imgur.com/8C1gKde.png
+
+        ('name_unique',
+         'UNIQUE(name)',
+         "The course title must be unique"),  # http://i.imgur.com/ikRt1XC.png
+    ]
+
+    def copy(self, default=None):
+        """в случае копирования курса падает ошибка http://i.imgur.com/KfGHmoX.png из-за _sql_constraints на уникальное
+         имя, поэтмоу создадим метод http://i.imgur.com/RSG0kOk.png"""
+        default = dict(default or {})
+
+        copied_count = self.search_count(
+            [('name', '=like', u"Copy of {}%".format(self.name))])  # для счеткика, если уже есть имя с "Copy of {}..."
+        # например Copy of course, Copy of course(1) ... - для подсчета уже созданных копий
+        if not copied_count:
+            new_name = u"Copy of {}".format(self.name)
+        else:
+            new_name = u"Copy of {} ({})".format(self.name, copied_count)
+
+        default['name'] = new_name
+        return super(Course, self).copy(default)  # используем метод супер, что бы сказать классу  Course использовать
+        # именно этот метод copy, а не встроенный в него метод copy по умолчанию
+
 
 class Session(models.Model):
     _name = 'openacademy.session'
