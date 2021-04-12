@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from odoo import models, fields, api
+from odoo import models, fields, api, exceptions
 
 
 class Course(models.Model):
@@ -60,13 +60,37 @@ class Session(models.Model):
 
     taken_seats = fields.Float(string="Taken seats", compute='_taken_seats')
 
-    @api.depends('seats', 'attendee_ids')
+    @api.depends('seats', 'attendee_ids')  # используется для подсчета на лету(не создавая запись в бд) новых полей, на основе полученных данных
     def _taken_seats(self):
         for r in self:
             if not r.seats:
                 r.taken_seats = 0.0
             else:
                 r.taken_seats = 100.0 * len(r.attendee_ids) / r.seats
+
+    @api.onchange('seats', 'attendee_ids')  # используют для перерасчета существющих полей, при изменение значении
+    # одного из и оно будет будет исполняться автоматичекси(ненужно нигде укзывать) http://i.imgur.com/Q6K195a.png
+    def _verify_valid_seats(self):
+        if self.seats < 0:
+            return {
+                'warning': {
+                    'title': "Incorrect 'seats' value",
+                    'message': "The number of available seats may not be negative",
+                },
+            }
+        if self.seats < len(self.attendee_ids):
+            return {
+                'warning': {
+                    'title': "Too many attendees",
+                    'message': "Increase seats or remove excess attendees",
+                },
+            }
+
+    @api.constrains('instructor_id', 'attendee_ids')  # - add restrain http://i.imgur.com/tiLfJU9.png
+    def _check_instructor_not_in_attendees(self):
+        for r in self:
+            if r.instructor_id and r.instructor_id in r.attendee_ids:  # первое условие проверяет что вообще существует иснтурктор, а второй - наличие его в посещаемых
+                raise exceptions.ValidationError("A session's instructor can't be an attendee")
 
 
 
