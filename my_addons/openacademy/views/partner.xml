@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+ <odoo>
+
+        <!-- Add instructor field to existing view -->
+        <record model="ir.ui.view" id="partner_instructor_form_view">
+            <field name="name">partner.instructor(name of inherited view)</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_form"/>
+<!--            http://i.imgur.com/VYewMQa.png  .  http://i.imgur.com/mgGTUhw.png-->
+            <field name="arch" type="xml">
+                <notebook position="inside">
+                    <page string="Sessions(tab of notebook)">
+                        <group>
+                            <field name="instructor"/>
+                            <field name="session_ids"/>
+                        </group>
+                    </page>
+                </notebook>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="contact_list_action">
+            <field name="name">Contacts(name form  of inherited model)</field>
+            <field name="res_model">res.partner</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+        <menuitem id="configuration_menu" name="Configuration"
+                  parent="main_openacademy_menu"/>
+        <menuitem id="contact_menu" name="Contacts(menu items of inherited model partener)"
+                  parent="configuration_menu"
+                  action="contact_list_action"/>
+
+</odoo>
