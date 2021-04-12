@@ -24,7 +24,7 @@
             <field name="res_model">res.partner</field>
             <field name="view_mode">tree,form</field>
         </record>
-        <menuitem id="configuration_menu" name="Configuration"
+        <menuitem id="configuration_menu" name="Configuration(new tab in main_openacademy_menu)"
                   parent="main_openacademy_menu"/>
         <menuitem id="contact_menu" name="Contacts(menu items of inherited model partener)"
                   parent="configuration_menu"
