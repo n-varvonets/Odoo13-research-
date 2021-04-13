@@ -222,7 +222,7 @@
             <kanban default_group_by="course_id"><!-- указываем по какому дефолтному полю будем групировать-->
                 <field name="color"/>
                 <templates>
-<!--                    дальше блок идет для определения различных стилей-->
+                    <!--                    дальше блок идет для определения различных стилей-->
                     <t t-name="kanban-box">
                         <div
                                 t-attf-class="oe_kanban_color_{{kanban_getcolor(record.color.raw_value)}}
@@ -244,7 +244,7 @@
                                 </div>
                                 <div class="oe_clear"></div>
                             </div>
-<!--                            вот сейчас уже пошел контент, который нужно вставить в логику отображения канбана-->
+                            <!--                            вот сейчас уже пошел контент, который нужно вставить в логику отображения канбана-->
                             <div t-attf-class="oe_kanban_content">
                                 <!-- title -->
                                 Session name(канбан1):
