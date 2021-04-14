@@ -73,15 +73,23 @@ class HospitalPatient(models.Model):
     @api.model
     def test_cron_job(self):
         print("Abcd") # print will get printed in the log of pycharm
-        #code accordingly to execute the cron
+        # code accordingly to execute the cron
 
     # https://www.youtube.com/watch?v=-1r3WSwtqxQ
     def name_get(self):
-        # name get function for the model executes automatically
+        # name get function for the model executes automatically - обычная конкатенация
         res = []
         for rec in self:
-            res.append((rec.id, '%s - %s' % (rec.name_seq, rec.patient_name)))
+            res.append((rec.id, '%s - %s - %s - %s' % (rec.patient_name, rec.name_seq, rec.patient_age, 'abra-cadabra')))
         return res
+
+    @api.model
+    def name_search(self, name='', args=None, operator='ilike', limit=100):
+        if args is None:
+            args = []
+        domain = args + ['|', '|', ('patient_name', operator, name), ('name_seq', operator, name), ('patient_age', operator, name)]
+        return super(HospitalPatient, self).search(domain, limit=limit).name_get()
+
 
     # Add Constrains For a Field
     # https://www.youtube.com/watch?v=ijS-N1CdiWU&list=PLqRRLx0cl0hoJhjFWkFYowveq2Zn55dhM&index=14
