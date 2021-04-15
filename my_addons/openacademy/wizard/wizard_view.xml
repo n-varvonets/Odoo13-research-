@@ -28,6 +28,6 @@
                 binding_model="openacademy.session"
                 res_model="openacademy.wizard"
                 view_mode="form"
-                target="new"/>
+                target="new"/> <!-- binding_model - говорит поверх какой моедли попап появится-->
 
 </odoo>

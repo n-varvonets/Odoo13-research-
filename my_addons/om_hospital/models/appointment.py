@@ -87,7 +87,7 @@ class HospitalAppointment(models.Model):
                 "email_id": 'asddas@gmail.com',
             }
             # self.env['hospital.patient'].create(vals)  # http://i.imgur.com/QOiLUvk.png
-            created_record = self.env['hospital.patient'].create(vals)
+            # created_record = self.env['hospital.patient'].create(vals)
             # print('created_record..', created_record, created_record.id, created_record.email_id)
             # >>> created_record.. hospital.patient(11,) 11 asddas@gmail.com
 
@@ -115,13 +115,13 @@ class HospitalAppointment(models.Model):
 
             # мы можем получить по отдельности имя и айди записи найдя сам обьект:
             patient = self.env['hospital.patient'].search([('id', '=', 12)])
-            print(patient, ',', patient.patient_name, ',', patient.name_seq)
+
+            # print(patient, ',', patient.patient_name, ',', patient.name_seq)
             # >>> hospital.patient(12,) , RRRR PPPP , HP012
 
             # но так же есть встроенный в оду модуль display_name http://i.imgur.com/jPUlg05.png , который отобразит имя _rec_name http://i.imgur.com/gnCuC7z.png :
             # 7.а) метод name_get  отствуеет в нашем кастомном модуле
-            print(
-                patient.display_name)  # отображает имя http://i.imgur.com/a7YNIFX.png, хотя в модуле patient этот метод - отсутветует http://i.imgur.com/375RLk8.png и метод name_get закоменчен
+            # print(patient.display_name)  # отображает имя http://i.imgur.com/a7YNIFX.png, хотя в модуле patient этот метод - отсутветует http://i.imgur.com/375RLk8.png и метод name_get закоменчен
             # 7.б)  метод name_get присутсвует в нашем кастомном модуле и он будет отображать любой порядок значений,
             # который мы в нем укажем например:  http://i.imgur.com/qLU6LJH.png . http://i.imgur.com/WmugFjP.png
 
@@ -136,14 +136,36 @@ class HospitalAppointment(models.Model):
             # Решение: добавить мутод по дефолту http://i.imgur.com/VuaKtvp.png, так отображается в UI:
             # http://i.imgur.com/oYDZbAn.png( и без этого метода - http://i.imgur.com/EWSzeXr.png)
 
-            # 10 filtered function
-            # можно отфилтровать записи 2мя методами(непрямым(через домейн) и прямым(используя функцию фильтр)):
+            # 10 filtered function - они частные случаи функции search
+            # filtered можно отфилтровать записи 2мя методами(непрямым(через домейн) и прямым(используя функцию фильтр)):
             # 10.а) через домейн
-            female_patient = self.env['hospital.patient'].search([("gender", "=", "fe_male")])
-            # print("female_patient....", female_patient)  # >>> female_patient.... hospital.patient(1, 2, 4)
+            female_patient = self.env['hospital.patient'].search([("gender", "=", "fe_male")]) # >>> female_patient.... hospital.patient(1, 2, 4)
             # 10.б) используя встроенную в оду функцию фильтр http://i.imgur.com/k6ZISEM.png
-            filter_female_patient = self.env['hospital.patient'].search([]).filtered(lambda s: s.gender == "fe_male")
-            # print("filter_female_patient....", filter_female_patient)  # >>> filter_female_patient.... hospital.patient(1, 2, 4)
+            filter_female_patient = self.env['hospital.patient'].search([]).filtered(lambda s: s.gender == "fe_male")   # >>> filter_female_patient.... hospital.patient(1, 2, 4)
+
+            # 11 mapped функция - выводит определенные колнки всех записей
+            mapped_patient_name = self.env['hospital.patient'].search([]).mapped("patient_name")
+            # print("mapped_patient_name....", mapped_patient_name) >>> mapped_patient_name.... ['Odoo Mates', 'female', ... , 'RRRR PPPP',]
+
+            # 12 sorted функция
+            sorted_patient_age = self.env['hospital.patient'].search([]).sorted(key='patient_age', reverse=True).mapped("patient_age")
+            # print("sorted_patient_age...", sorted_patient_age) >>> sorted_patient_age... [40, 25, 25, 15, 0, 0, 0, 0]
+            sorted_filtered_patient_age = self.env['hospital.patient'].search([]).filtered(lambda s: s.gender == "fe_male").sorted(key='patient_age', reverse=True).mapped(
+                "patient_name")
+            # print("sorted_filtered_patient_age...", sorted_filtered_patient_age)  # >>> sorted_filtered_patient_age... ['patient age 40 and female', 'Odoo Mates', 'female']
+
+            # 13 with_context -  изменяет записи в другой форме(например меняеть язык записей)
+            # 13.a) к примеру возьмем записи продуктов (в обычном контексте)
+            product_category_def = self.env['product.category'].search([]).mapped("name")
+            # print("product_category_def...", product_category_def) >>> product_category_def... ['All', 'Consumable', 'Expenses', 'Internal', 'Saleable', 'Office Furniture', 'Services', 'Saleable', 'Software']
+            # 13.б) возьмем те же записи продуктов, но уже с другим контекстом.
+            # Важно: нужно убедиться что
+            # - на сайте есть перевод http://i.imgur.com/EEexsEt.png
+            # - активировать/загрузить его  http://i.imgur.com/4wbqxeU.png
+            # - убедиться что этот текст входит в состав того что т переведено http://i.imgur.com/MqQMprj.png
+            # product_category_context = self.env['product.category'].search([]).with_context(lang="ar_SY").mapped("name") >>> чет не получается, но по идее должен выводиться запииси на арабском
+
+
 
 
 

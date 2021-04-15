@@ -3,7 +3,7 @@
 from odoo import models, fields, api
 
 
-class Wizard(models.TransientModel):   # http://i.imgur.com/nX1vWWN.png
+class Wizard(models.TransientModel):   # http://i.imgur.com/nX1vWWN.png - модуль не хранится в бд, а автоматически удаляется и поэтому он и называется TransientModel
     _name = 'openacademy.wizard'
     _description = "Wizard: Quick Registration of Attendees to Sessions"
 

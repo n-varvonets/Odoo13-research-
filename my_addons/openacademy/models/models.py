@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from datetime import timedelta
 from odoo import models, fields, api, exceptions
+from odoo.exceptions import UserError
 
 
 class Course(models.Model):
@@ -51,6 +52,17 @@ class Course(models.Model):
         default['name'] = new_name
         return super(Course, self).copy(default)  # используем метод супер, что бы сказать классу  Course использовать
         # именно этот метод copy, а не встроенный в него метод copy по умолчанию
+
+    def action_view_url(self):  # http://i.imgur.com/7RejlW7.png
+        url = "https://www.google.com/search?q=odoo+controller&oq=odoo+contr&aqs=chrome.1.69i57j0l5j69i60l2.4727j0j7&sourceid=chrome&ie=UTF-8"
+        if url:
+            return {
+                "type": "ir.actions.act_url",
+                "url": "%s" % url,
+                "target": "new "
+            }
+        else:
+            raise UserError("There is no website(for dynamic url taken not directly, but from variable of into the site )")
 
 
 class Session(models.Model):

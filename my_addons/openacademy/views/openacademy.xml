@@ -9,11 +9,14 @@
         <field name="model">openacademy.course</field>
         <field name="arch" type="xml">
             <form string="Course Form(123)">
-                <sheet>
+               <sheet><!-- создает форму(блок) заполнения http://i.imgur.com/gRdIMMI.png-->
+                    <record> <!-- http://i.imgur.com/7RejlW7.png-->
+                        <button name="action_view_url" string="click here to redict on wevsite" type="object"/>
+                    </record>
                     <group>
                         <field name="name"/>
                         <field name="description"/>
-                        <field name="responsible_id"/><!--   http://i.imgur.com/ceJC9TG.png-->
+                        <field name="responsible_id"/><!-- http://i.imgur.com/ceJC9TG.png-->
                     </group>
                     <!-- наши табы внутри формы http://i.imgur.com/cvKfhHt.png-->
                     <notebook>
