@@ -131,6 +131,22 @@ class HospitalAppointment(models.Model):
             # Решение: добавим метод name_search в встроенную модель patient, который будет проводит поиск по заданным полям http://i.imgur.com/ZWBteP9.png
             # Результат: http://i.imgur.com/pNOUFbR.png
 
+            # 9 default_name
+            # Проблема/задача: поставить по умолчанию значения, когда создается новая запись чего-то
+            # Решение: добавить мутод по дефолту http://i.imgur.com/VuaKtvp.png, так отображается в UI:
+            # http://i.imgur.com/oYDZbAn.png( и без этого метода - http://i.imgur.com/EWSzeXr.png)
+
+            # 10 filtered function
+            # можно отфилтровать записи 2мя методами(непрямым(через домейн) и прямым(используя функцию фильтр)):
+            # 10.а) через домейн
+            female_patient = self.env['hospital.patient'].search([("gender", "=", "fe_male")])
+            # print("female_patient....", female_patient)  # >>> female_patient.... hospital.patient(1, 2, 4)
+            # 10.б) используя встроенную в оду функцию фильтр http://i.imgur.com/k6ZISEM.png
+            filter_female_patient = self.env['hospital.patient'].search([]).filtered(lambda s: s.gender == "fe_male")
+            # print("filter_female_patient....", filter_female_patient)  # >>> filter_female_patient.... hospital.patient(1, 2, 4)
+
+
+
             rec.state = 'confirm'
             return {
                 'effect': {
@@ -172,16 +188,21 @@ class HospitalAppointment(models.Model):
             return {'domain': {'order_id': [('partner_id', '=', rec.partner_id.id)]}}
 
     @api.model
-    def default_get(self, fields):
+    def default_get(self,
+                    fields):  # то что происходит по дефолту при создании встречи 'hospital.appointment', без этого метода все поля будут пустыми при создании
         res = super(HospitalAppointment, self).default_get(fields)
+        # print("test......", fields)  # >>> test...... ['state', 'name', 'patient_id', 'doctor_id', 'doctor_ids', ... ]
         appointment_lines = []
-        product_rec = self.env['product.product'].search([])
+        product_rec = self.env['product.product'].search([])  # видимо берем все существющие записи пвсех продуктов
+        # print(product_rec)  # >>> product.product(15, 37, 38, 36, 16, 17, 18, ... , 29, 33, 32, 6, 27, 35, 28, 7, 4, 3)
         for pro in product_rec:
             line = (0, 0, {
                 'product_id': pro.id,
                 'product_qty': 1,
-            })
+            })  # для записи по дефолту вписываем кол-во 1 и берем продукт айди для указания конкретного  прукта
             appointment_lines.append(line)
+        # print(appointment_lines, "appointment_lines")   # [(0, 0, {'product_id': 15, 'product_qty': 1}), (0, 0, {'product_id': 37, 'product_qty': 1}), (0, 0, {'product_id': 38, 'product_qty': 1}), (0, 0, {'product_id': 36, 'product_qty': 1}), (0, 0, {'product_id': 16, 'product_qty': 1}), (0, 0, {'product_id': 17, 'product_qty': 1}), (0, 0, {'product_id': 18, 'product_qty': 1}), (0, 0, {'product_id': 19, 'product_qty': 1}), (0, 0, {'product_id': 20, 'product_qty': 1}), (0, 0, {'product_id': 21, 'product_qty': 1}), (0, 0, {'product_id': 23, 'product_qty': 1}), (0, 0, {'product_id': 24, 'product_qty': 1}), (0, 0, {'product_id': 2, 'product_qty': 1}), (0, 0, {'product_id': 1, 'product_qty': 1}), (0, 0, {'product_id': 12, 'product_qty': 1}), (0, 0, {'product_id': 13, 'product_qty': 1}), (0, 0, {'product_id': 14, 'product_qty': 1}), (0, 0, {'product_id': 25, 'product_qty': 1}), (0, 0, {'product_id': 30, 'product_qty': 1}), (0, 0, {'product_id': 26, 'product_qty': 1}), (0, 0, {'product_id': 31, 'product_qty': 1}), (0, 0, {'product_id': 34, 'product_qty': 1}), (0, 0, {'product_id': 5, 'product_qty': 1}), (0, 0, {'product_id': 8, 'product_qty': 1}), (0, 0, {'product_id': 29, 'product_qty': 1}), (0, 0, {'product_id': 33, 'product_qty': 1}), (0, 0, {'product_id': 32, 'product_qty': 1}), (0, 0, {'product_id': 6, 'product_qty': 1}), (0, 0, {'product_id': 27, 'product_qty': 1}), (0, 0, {'product_id': 35, 'product_qty': 1}), (0, 0, {'product_id': 28, 'product_qty': 1}), (0, 0, {'product_id': 7, 'product_qty': 1}), (0, 0, {'product_id': 4, 'product_qty': 1}), (0, 0, {'product_id': 3, 'product_qty': 1})] appointment_lines
+
         res.update({
             'appointment_lines': appointment_lines,
             'patient_id': 1,
