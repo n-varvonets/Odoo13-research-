@@ -1,0 +1,60 @@
+<odoo>
+  <data>
+    <!-- explicit list view definition -->
+<!--
+    <record model="ir.ui.view" id="instagram.list">
+      <field name="name">instagram list</field>
+      <field name="model">instagram.instagram</field>
+      <field name="arch" type="xml">
+        <tree>
+          <field name="name"/>
+          <field name="value"/>
+          <field name="value2"/>
+        </tree>
+      </field>
+    </record>
+-->
+
+    <!-- actions opening views on models -->
+<!--
+    <record model="ir.actions.act_window" id="instagram.action_window">
+      <field name="name">instagram window</field>
+      <field name="res_model">instagram.instagram</field>
+      <field name="view_mode">tree,form</field>
+    </record>
+-->
+
+    <!-- server action to the one above -->
+<!--
+    <record model="ir.actions.server" id="instagram.action_server">
+      <field name="name">instagram server</field>
+      <field name="model_id" ref="model_instagram_instagram"/>
+      <field name="state">code</field>
+      <field name="code">
+        action = {
+          "type": "ir.actions.act_window",
+          "view_mode": "tree,form",
+          "res_model": model._name,
+        }
+      </field>
+    </record>
+-->
+
+    <!-- Top menu item -->
+<!--
+    <menuitem name="instagram" id="instagram.menu_root"/>
+-->
+    <!-- menu categories -->
+<!--
+    <menuitem name="Menu 1" id="instagram.menu_1" parent="instagram.menu_root"/>
+    <menuitem name="Menu 2" id="instagram.menu_2" parent="instagram.menu_root"/>
+-->
+    <!-- actions -->
+<!--
+    <menuitem name="List" id="instagram.menu_1_list" parent="instagram.menu_1"
+              action="instagram.action_window"/>
+    <menuitem name="Server to list" id="instagram" parent="instagram.menu_2"
+              action="instagram.action_server"/>
+-->
+  </data>
+</odoo>
