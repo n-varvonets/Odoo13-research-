@@ -1,60 +1,111 @@
 <odoo>
-  <data>
-    <!-- explicit list view definition -->
-<!--
-    <record model="ir.ui.view" id="instagram.list">
-      <field name="name">instagram list</field>
-      <field name="model">instagram.instagram</field>
-      <field name="arch" type="xml">
-        <tree>
-          <field name="name"/>
-          <field name="value"/>
-          <field name="value2"/>
-        </tree>
-      </field>
-    </record>
--->
+    <data>
+        <!--   *********************************tree,form view for inst posts****************************************************     -->
 
-    <!-- actions opening views on models -->
-<!--
-    <record model="ir.actions.act_window" id="instagram.action_window">
-      <field name="name">instagram window</field>
-      <field name="res_model">instagram.instagram</field>
-      <field name="view_mode">tree,form</field>
-    </record>
--->
+        <!-- explicit list view -->
+        <record id="instagram_list_post" model="ir.ui.view">
+            <field name="name">Instagram list(posts)</field><!-- http://i.imgur.com/jp53ZaY.png-->
+            <field name="model">instagram.instagram</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"/>
+                    <!--                    <field name="username"/>-->
+                    <!--                    <field name="user_login"/>-->
+                    <!--                    <field name="user_pass"/>-->
+                    <!--                    <field name="qty_posts"/>-->
+                    <!--                    <field name="required_acc_to_find"/>-->
+                    <!--                    <field name="id_post"/>-->
+                    <!--                    <field name="img"/>-->
+                </tree>
+            </field>
+        </record>
 
-    <!-- server action to the one above -->
-<!--
-    <record model="ir.actions.server" id="instagram.action_server">
-      <field name="name">instagram server</field>
-      <field name="model_id" ref="model_instagram_instagram"/>
-      <field name="state">code</field>
-      <field name="code">
-        action = {
-          "type": "ir.actions.act_window",
-          "view_mode": "tree,form",
-          "res_model": model._name,
-        }
-      </field>
-    </record>
--->
+        <!--form view of the instagram p-->
+        <record id="instagram_form_posts" model="ir.ui.view">
+            <field name="name">Instagram form(posts)</field><!-- http://i.imgur.com/jp53ZaY.png-->
+            <field name="model">instagram.instagram</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <field name="name"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
 
-    <!-- Top menu item -->
-<!--
-    <menuitem name="instagram" id="instagram.menu_root"/>
--->
-    <!-- menu categories -->
-<!--
-    <menuitem name="Menu 1" id="instagram.menu_1" parent="instagram.menu_root"/>
-    <menuitem name="Menu 2" id="instagram.menu_2" parent="instagram.menu_root"/>
--->
-    <!-- actions -->
-<!--
-    <menuitem name="List" id="instagram.menu_1_list" parent="instagram.menu_1"
-              action="instagram.action_window"/>
-    <menuitem name="Server to list" id="instagram" parent="instagram.menu_2"
-              action="instagram.action_server"/>
--->
-  </data>
+        <!--   *********************************tree,form view for inst info****************************************************     -->
+
+        <!-- explicit list view -->
+        <record id="instagram_list_info" model="ir.ui.view">
+            <field name="name">Instagram list(info)</field><!-- http://i.imgur.com/jp53ZaY.png-->
+            <field name="model">instagram.instagram</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"/>
+                    <!--                    <field name="username"/>-->
+                    <!--                    <field name="user_login"/>-->
+                    <!--                    <field name="user_pass"/>-->
+                    <!--                    <field name="qty_posts"/>-->
+                    <!--                    <field name="required_acc_to_find"/>-->
+                    <!--                    <field name="id_post"/>-->
+                    <!--                    <field name="img"/>-->
+                </tree>
+            </field>
+        </record>
+
+        <!--form view of the instagram p-->
+        <record id="instagram_form_info" model="ir.ui.view">
+            <field name="name">Instagram form(info)</field><!-- http://i.imgur.com/jp53ZaY.png-->
+            <field name="model">instagram.instagram</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <field name="name"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+
+        <!--   *********************************Menu and actions*********************************************************     -->
+
+        <!--action of the instagram menu(posts info) -->
+        <record id="action_instagram_posts" model="ir.actions.act_window">
+            <field name="name">Instagram(posts info)</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">instagram.instagram</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Create your First inf asdasdasdas
+                </p>
+            </field>
+        </record>
+
+        <!--action of the instagram menu(Data for searching posts) http://i.imgur.com/SHRQ1BJ.png , http://i.imgur.com/V1DjQ7W.png -->
+        <record id="action_instagram_data_info" model="ir.actions.act_window">
+            <field name="name">Instagram(data for searching posts)</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">instagram.instagram</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Create your First inf
+                </p>
+            </field>
+        </record>
+
+
+        <!--creating menus-->
+        <menuitem id="instagram_root" name="Instagram(menuitem)"/>
+        <menuitem id="user_info_root" name="Data for searching posts" parent="instagram_root"
+                  action="action_instagram_data_info"/>
+        <menuitem id="posts_info_root" name="Posts info" parent="instagram_root" action="action_instagram_posts"/>
+
+
+    </data>
 </odoo>

@@ -21,13 +21,15 @@
 
     # any module necessary for this one to work correctly
     'depends': ['base'],
+    'depends': ['website'],
 
     # always loaded
     'data': [
-        # 'security/ir.model.access.csv',
+        'security/ir.model.access.csv',
         'views/views.xml',
         'views/templates.xml',
-        'data/data.xml'
+        'data/data.xml',
+        'views/instagram_form.xml'
     ],
     # only loaded in demonstration mode
     'demo': [
