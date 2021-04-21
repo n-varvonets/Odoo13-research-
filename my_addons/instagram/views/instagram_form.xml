@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+<!--    эта запись отвечает за создание кнопки в модели http://i.imgur.com/4qFCbVF.png-->
+    <record id="instagram_input_form" model="website.menu">
+        <field name="name">Get id and imgs of posts from instagram</field>
+        <field name="url">/instpost_webform</field><!--http://i.imgur.com/ybJEne1.png-->
+        <field name="parent_id" ref="website.main_menu"/><!-- нужно указать что бы мейн меню(это menu_id)-->
+        <field name="sequence">55</field>
+    </record>
+
+<!--    темплейт отвечает за создание формы, ввода данных и переотправки эитх данных в контроллер http://i.imgur.com/dMjNCVi.png-->
+    <template id="get_info_post" name="Get info posts">
+        <t t-call="website.layout">
+            <div id="wrap">
+                <div class="oe_structure">
+                    <div class="container">
+                        <form role="form" action="/create/webposts" method="POST">
+                            <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                            <div class="form-group">
+                                <label for="username" class="control-label">Your real name</label>
+                                <input type="text" name="username" t-att-value="username" id="username"
+                                       class="form-control" placeholder="John Doe" required="required"/>
+                            </div>
+                            <div class="form-group">
+                                <label for="user_login" class="control-label">Your  email/phone for login in instagram</label>
+                                <input type="user_login" name="user_login" t-att-value="user_login" id="user_login"
+                                       class="form-control" placeholder="google" required="required"/>
+                            </div>
+                            <div class="form-group">
+                                <label for="user_pass" class="control-label">Password of instagram</label>
+                                <input type="user_pass" name="user_pass" t-att-value="user_pass" id="user_pass"
+                                       class="form-control" placeholder="password" required="required"/>
+                            </div>
+                            <div class="form-group">
+                                <label for="qty_posts" class="control-label">Number of posts</label>
+                                <input type="qty_posts" name="qty_posts" t-att-value="qty_posts" id="qty_posts"
+                                       class="form-control" placeholder="3" required="required"/>
+                            </div>
+                            <div class="form-group">
+                                <label for="required_acc_to_find" class="control-label">Username of instagram who you are looking for</label>
+                                <input type="required_acc_to_find" name="required_acc_to_find" t-att-value="required_acc_to_find" id="required_acc_to_find"
+                                       class="form-control" placeholder="google" required="required"/>
+                            </div>
+
+<!--                            <div class="form-group">-->
+<!--                                <label for="doctor_id" class="control-label">Doctor</label>-->
+<!--                                <select name="doctor_id" class="form-control link-style">-->
+<!--                                    <t t-foreach='doctor_rec' t-as="doctor">-->
+<!--                                        <option t-esc='doctor.name' t-att-value='doctor.id'/>-->
+<!--                                    </t>-->
+<!--                                </select>-->
+<!--                            </div>-->
+                            <div class="clearfix oe_login_buttons">
+                                <button type="submit" class="btn btn-primary pull-left">Get the info of posts</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </t>
+    </template>
+
+    <record id="success_msg_and_data" model="website.page">
+        <field name="name">Here data od instagram posts</field>
+        <field name="type">qweb</field>
+        <field name="url">/patient-thank-you</field>
+        <field name="website_published">True</field>
+        <field name="key">instagram.success_msg_and_data</field>
+        <field name="arch" type="xml">
+            <t name="Thanks" t-name="instagram.success_msg_and_data">
+                <t t-call="website.layout">
+                  <div id="wrap">
+                    <div class="container">
+                        <h1>Success</h1>
+                        <div class="row">
+                            <div class="col-lg-8">
+                                <div class="alert alert-success" role="status">
+                                    Everything done correct! Here your data of posts
+                                </div>
+                                <p>
+                                    DATA
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                  </div>
+                </t>
+            </t>
+        </field>
+    </record>
+
+</odoo>
