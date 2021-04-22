@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*-
 from odoo import http
 from odoo.http import request
-from my_addons.instagram.instascraper import *
+from my_addons.instagram.instascraper.instagram import get_posts_data
+
 
 
 class Instagram(http.Controller):
@@ -18,7 +19,12 @@ class Instagram(http.Controller):
         """здесь мы получаем данные с темплейта, их обрабатываем и передаем дальше"""
         print("Data Received.....", kw)
 
-        request.env['instagram.instagram'].sudo().create(kw)
+        try:
+            posts_img_id = get_posts_data(**kw)
+            print(posts_img_id)
+            request.env['instagram.instagram'].sudo().create(kw)
+        except Exception as e:
+            print(e)
 
 
         # doctor_val = {

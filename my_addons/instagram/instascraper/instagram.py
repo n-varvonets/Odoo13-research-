@@ -3,22 +3,9 @@ from bs4 import BeautifulSoup as BS
 from selenium import webdriver
 import time
 
-# put here your valid data of instagram account for login
-# my_username_or_phone = 'example@gmail.com'
-# my_pass = "example_pass"
-# required_username = "example"  # username who we are looking for http://i.imgur.com/mxX3gXo.png
-# abs_path_to_chromedriver = '/home/alex/PycharmProjects/Odoo13-research-/my_addons/instagram/instascraper/chromedriver'  # absolute path to chromedriver http://i.imgur.com/BrHRsaj.png
-# qty_req_posts = 3  # number of required posts
 
-my_username_or_phone = 'nickolay.varvonets@gmail.com'
-my_pass = "Varvonets16"
-required_username = "varan_dimode"
-abs_path_to_chromedriver = '/home/alex/PycharmProjects/Odoo13-research-/my_addons/instagram/instascraper/chromedriver'
-qty_req_posts = 3
-
-# constants
+ABS_PATH_TO_CHROMEDRIVER = '/home/alex/PycharmProjects/Odoo13-research-/my_addons/instagram/instascraper/chromedriver'  #  put your abs path to chromedriver http://i.imgur.com/tCFHGn7.png
 LINK = 'https://www.instagram.com/'
-REQUIRED_LINK = f'https://www.instagram.com/{required_username}'
 FIELD_PASS = '//*[@id="loginForm"]/div/div[2]/div/label/input'
 FIELD_NAME_PHONE = '//*[@id="loginForm"]/div/div[1]/div/label/input'
 BTN_LOGIN = '//div/span/a[1]/button'
@@ -26,11 +13,18 @@ BTN_LOGIN_FORM = '//*[@id="loginForm"]/div/div[3]/button/div'
 BTN_NOT_NOW = '//*[@id="react-root"]/section/main/div/div/div/div/button'
 SECOND_BTN_NOT_NOW = '/html/body/div[4]/div/div/div/div[3]/button[2]'
 EXTRACT_INFO = '//*[@id="react-root"]/section/main/div/div[3]/article/div[1]/div/div[1]'
-QTY_POSTS = 1 + qty_req_posts
 
 
-def get_list_of_posts():
-    with webdriver.Chrome(executable_path=abs_path_to_chromedriver) as browser:
+def get_posts_data(**kw):
+
+    email_username_login = kw['user_login']
+    my_pass = kw['user_pass']
+    required_username_to_search = kw['required_acc_to_find']
+    qty_req_posts = int(kw['qty_posts'])
+    required_link = f'https://www.instagram.com/{required_username_to_search}'
+
+
+    with webdriver.Chrome(executable_path=ABS_PATH_TO_CHROMEDRIVER) as browser:
         try:
             browser.get(LINK)
             time.sleep(3)
@@ -40,13 +34,13 @@ def get_list_of_posts():
                 print(e)
 
             browser.implicitly_wait(5)
-            browser.find_element_by_xpath(FIELD_NAME_PHONE).send_keys(my_username_or_phone)
+            browser.find_element_by_xpath(FIELD_NAME_PHONE).send_keys(email_username_login)
             browser.find_element_by_xpath(FIELD_PASS).send_keys(my_pass)
             browser.find_element_by_xpath(BTN_LOGIN_FORM).click()
             browser.find_element_by_xpath(BTN_NOT_NOW).click()
             browser.find_element_by_xpath(SECOND_BTN_NOT_NOW).click()
 
-            browser.get(REQUIRED_LINK)
+            browser.get(required_link)
             resp = browser.page_source
             soup = BS(resp, 'html.parser')
             scripts = soup.find_all('script')
@@ -58,8 +52,11 @@ def get_list_of_posts():
                 'edges']
 
             result = {}
-            for n, post in enumerate(list_posts[:QTY_POSTS]):
-                result[n] = {post['node']['shortcode']: post['node']['thumbnail_src']}
+            for n, post in enumerate(list_posts[:qty_req_posts]):
+                result[n] = {
+                    'ID': post['node']['shortcode'],
+                    'url_img': post['node']['thumbnail_src']
+                }
 
             return result
 
@@ -67,3 +64,7 @@ def get_list_of_posts():
             print(e)
         time.sleep(20)
         browser.quit()
+
+# kw = {'user_login': 'nickolay.varvonets@gmail.com', 'user_pass': "Varvonets16", 'qty_posts': '3', 'required_acc_to_find': "varan_dimode"}
+# print(get_posts_data(**kw))
+
