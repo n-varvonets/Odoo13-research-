@@ -82,7 +82,7 @@
         </record>
 
 
-        <!--   *********************************Menu and actions*********************************************************     -->
+<!--   *********************************Menu and actions*********************************************************     -->
 
 <!--        action of the instagram menu(posts info)-->
         <record id="action_instagram_posts" model="ir.actions.act_window">
@@ -133,3 +133,6 @@
 
     </data>
 </odoo>
+
+
+

@@ -64,6 +64,7 @@
     <record id="success_msg_and_data" model="website.page">
         <field name="name">Here data od instagram posts</field>
         <field name="type">qweb</field>
+<!-- дальше мне не понятны ниже три поля-->
         <field name="url">/patient-thank-you</field>
         <field name="website_published">True</field>
         <field name="key">instagram.success_msg_and_data</field>
