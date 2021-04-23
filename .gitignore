@@ -20,6 +20,13 @@ __pycache__/
 # C extensions
 *.so
 
+# Odoo pack
+.setup
+.addons
+.debian
+.doc
+.odoo
+
 # Distribution / packaging
 .Python
 build/

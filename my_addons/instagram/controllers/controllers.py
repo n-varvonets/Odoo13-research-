@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 from odoo import http
 from odoo.http import request
-from my_addons.instagram.instascraper.instagram import get_posts_data
 
 
 
@@ -20,8 +19,8 @@ class Instagram(http.Controller):
 
         print("Data Received.....", kw)
         # try:
-        posts_img_id = get_posts_data(**kw)
-        print(posts_img_id)
+        # posts_img_id = get_posts_data(**kw)
+        # print(posts_img_id)
         #     # request.env['instagram.instagram'].sudo().create(kw)
         # except Exception as e:
         #     print(e)
