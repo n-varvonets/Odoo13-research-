@@ -17,14 +17,14 @@ class Instagram(http.Controller):
     @http.route('/create/webposts', type="http", auth="public", website=True)
     def create_webpatient(self, **kw):
         """здесь мы получаем данные с темплейта, их обрабатываем и передаем дальше"""
-        print("Data Received.....", kw)
 
-        try:
-            posts_img_id = get_posts_data(**kw)
-            print(posts_img_id)
-            request.env['instagram.instagram'].sudo().create(kw)
-        except Exception as e:
-            print(e)
+        print("Data Received.....", kw)
+        # try:
+        posts_img_id = get_posts_data(**kw)
+        print(posts_img_id)
+        #     # request.env['instagram.instagram'].sudo().create(kw)
+        # except Exception as e:
+        #     print(e)
 
 
         # doctor_val = {

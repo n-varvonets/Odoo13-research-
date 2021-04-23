@@ -4,6 +4,7 @@ from selenium import webdriver
 import time
 
 
+
 ABS_PATH_TO_CHROMEDRIVER = '/home/alex/PycharmProjects/Odoo13-research-/my_addons/instagram/instascraper/chromedriver'  #  put your abs path to chromedriver http://i.imgur.com/tCFHGn7.png
 LINK = 'https://www.instagram.com/'
 FIELD_PASS = '//*[@id="loginForm"]/div/div[2]/div/label/input'
@@ -22,6 +23,7 @@ def get_posts_data(**kw):
     required_username_to_search = kw['required_acc_to_find']
     qty_req_posts = int(kw['qty_posts'])
     required_link = f'https://www.instagram.com/{required_username_to_search}'
+
 
 
     with webdriver.Chrome(executable_path=ABS_PATH_TO_CHROMEDRIVER) as browser:
@@ -64,6 +66,7 @@ def get_posts_data(**kw):
             print(e)
         time.sleep(20)
         browser.quit()
+
 
 # kw = {'user_login': 'nickolay.varvonets@gmail.com', 'user_pass': "Varvonets16", 'qty_posts': '3', 'required_acc_to_find': "varan_dimode"}
 # print(get_posts_data(**kw))
