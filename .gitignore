@@ -21,11 +21,11 @@ __pycache__/
 *.so
 
 # Odoo pack
-.setup
-.addons
-.debian
-.doc
-.odoo
+/setup
+/addons
+/debian
+/doc
+/odoo
 
 # Distribution / packaging
 .Python
