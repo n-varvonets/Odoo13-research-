@@ -1,16 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
 
-<!--    эта запись отвечает за создание кнопки в модели http://i.imgur.com/4qFCbVF.png-->
     <record id="menu_patient_form12" model="website.menu">
-        <field name="name">Create Patient(webform)</field>
-        <field name="url">/patient_webform</field><!--http://i.imgur.com/ybJEne1.png-->
+        <field name="name">Create Patient</field>
+        <field name="url">/patient_webform</field>
         <field name="parent_id" ref="website.main_menu"/>
-        <field name="sequence">54</field>
+        <field name="sequence">55</field>
     </record>
 
-<!--    темплейт отвечает за создание формы, ввода данных и переотправки эитх данных в контроллер http://i.imgur.com/dMjNCVi.png-->
-    <template id="create_patient" name="Create Patient(in top tab)">
+    <template id="create_patient" name="Create Patient">
         <t t-call="website.layout">
             <div id="wrap">
                 <div class="oe_structure">

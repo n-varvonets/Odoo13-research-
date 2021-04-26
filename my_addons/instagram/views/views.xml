@@ -10,6 +10,7 @@
                 <tree string="tree of inst posts">
                     <field name="id"/>
                     <field name="username"/>
+                    <field name="post_data"/>
                     <!--                    <field name="username"/>-->
                     <!--                    <field name="user_login"/>-->
                     <!--                    <field name="user_pass"/>-->
@@ -30,9 +31,9 @@
                     <sheet>
                         <group>
                             <group>
-                                <field name="id"/>
-                                <field name="username"/>
+                                <field name="user_login"/>
                                 <field name="user_pass"/>
+                                <field name="post_data"/>
                             </group>
                             <group>
                                 <field name="qty_posts"/>
@@ -53,6 +54,8 @@
             <field name="arch" type="xml">
                 <tree string="tree of inst info">
                     <field name="username"/>
+                    <field name="post_data"/>
+
                     <!--                    <field name="username"/>-->
                     <!--                    <field name="user_login"/>-->
                     <!--                    <field name="user_pass"/>-->
@@ -75,6 +78,7 @@
                             <field name="username"/>
                             <field name="user_login"/>
                             <field name="user_pass"/>
+                            <field name="post_data"/>
                         </group>
                     </sheet>
                 </form>

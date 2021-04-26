@@ -25,9 +25,21 @@ class Instagram(http.Controller):
         # except Exception as e:
         #     print(e)
 
+        # kw = {'user_login': 'nickolay.varvonets@gmail.com', 'user_pass': "Varvonets16", 'qty_posts': '3', 'required_acc_to_find': "varan_dimode"}
 
-        # doctor_val = {
-        #     'name': kw.get('patient_name')
-        # }
-        # request.env['hospital.doctor'].sudo().create(doctor_val)
+        login_val = {
+            'user_login': kw.get('user_login'),
+            'user_pass': kw.get('user_pass'),
+            'qty_posts': kw.get('qty_posts'),
+            'required_acc_to_find': kw.get('required_acc_to_find'),
+        }
+        record = request.env['instagram.instagram'].sudo().create(kw)
+        om_patient = request.env.ref('om_hospital.patient_xyz')
+        browse_result = request.env['hospital.patient'].browse([200, om_patient.id])
+        print('good')
+        print(request.env['instagram.instagram'].sudo().search([]))
+
+        # print('good')
+        # doctor_rec = request.env['instagram.instagram'].sudo().search(['post_data'])
+        # print(doctor_rec)
         return request.render("instagram.success_msg_and_data", {})

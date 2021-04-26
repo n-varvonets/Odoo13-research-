@@ -1,18 +1,12 @@
 <odoo>
-<!--    <data noupdate="1">-->
-<!--        &lt;!&ndash;creating patient record from code&ndash;&gt;-->
-<!--        <record id="patient_xyz" model="hospital.patient">-->
-<!--            <field name="patient_name">Odoo Mates</field>-->
-<!--            <field name="patient_age">25</field>-->
-<!--            <field name="name">9876543210</field>-->
-<!--            <field name="gender">fe_male</field>-->
-<!--            <field name="notes">Your Odoo Mate</field>-->
-<!--        </record>-->
+    <data noupdate="1">
+        <record id="posts_xyz" model="instagram.instagram">
+            <field name="username">XYZ</field>
+            <field name="user_login">login_XYZ</field>
+            <field name="user_pass">wqqwwq</field>
+            <field name="qty_posts">4</field>
+            <field name="required_acc_to_find">nike</field>
+        </record>
 
-<!--        &lt;!&ndash;creating appointment from the code&ndash;&gt;-->
-<!--        <record id="appointment_xyz" model="hospital.appointment">-->
-<!--            <field name="patient_id" ref="patient_xyz"/>-->
-<!--            <field name="notes">Subscribe the channel</field>-->
-<!--        </record>-->
-<!--    </data>-->
+    </data>
 </odoo>
