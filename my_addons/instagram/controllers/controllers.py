@@ -34,10 +34,10 @@ class Instagram(http.Controller):
             'required_acc_to_find': kw.get('required_acc_to_find'),
         }
         record = request.env['instagram.instagram'].sudo().create(kw)
-        om_patient = request.env.ref('om_hospital.patient_xyz')
-        browse_result = request.env['hospital.patient'].browse([200, om_patient.id])
+        # om_patient = request.env.ref('om_hospital.patient_xyz')
+        # browse_result = request.env['hospital.patient'].browse([200, om_patient.id])
         print('good')
-        print(request.env['instagram.instagram'].sudo().search([]))
+        # print(request.env['instagram.instagram'].sudo().search([]))
 
         # print('good')
         # doctor_rec = request.env['instagram.instagram'].sudo().search(['post_data'])

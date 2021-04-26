@@ -2,30 +2,20 @@
 from odoo import models, fields, api
 from json import loads
 from bs4 import BeautifulSoup as BS
+from selenium.webdriver.chrome.options import Options
+from multiprocessing import Process
 from selenium import webdriver
 import time
+import os
 
+import argparse
+import os
+import sys
 
-ABS_PATH_TO_CHROMEDRIVER = '/home/nickolay/Downloads/chromedriver_linux64/chromedriver'  #  put your abs path to chromedriver http://i.imgur.com/tCFHGn7.png
-LINK = 'https://www.instagram.com/'
-FIELD_PASS = '//*[@id="loginForm"]/div/div[2]/div/label/input'
-FIELD_NAME_PHONE = '//*[@id="loginForm"]/div/div[1]/div/label/input'
-BTN_LOGIN = '//div/span/a[1]/button'
-BTN_LOGIN_FORM = '//*[@id="loginForm"]/div/div[3]/button/div'
-BTN_NOT_NOW = '//*[@id="react-root"]/section/main/div/div/div/div/button'
-SECOND_BTN_NOT_NOW = '/html/body/div[4]/div/div/div/div[3]/button[2]'
-EXTRACT_INFO = '//*[@id="react-root"]/section/main/div/div[3]/article/div[1]/div/div[1]'
+sys.path.append(os.path.join(sys.path[0], "../"))
+from instabot import Bot
 
-def browser():
-    print("\nstart browser for test..")
-    browser = webdriver.Chrome(executable_path=ABS_PATH_TO_CHROMEDRIVER)
-    yield browser
-    print("\nquit browser..")
-    browser.quit()
-
-
-
-
+parser = argparse.ArgumentParser(add_help=True)
 
 class Instagram(models.Model):
     _name = 'instagram.instagram'
@@ -45,20 +35,42 @@ class Instagram(models.Model):
 
 
     # @api.depends('qty_posts')
-    def _get_posts_data(self, browser):
+    def _get_posts_data(self):
 
         self.post_data = 'hahaha'
-        # email_username_login = kw['user_login']
-        # my_pass = kw['user_pass']
-        # required_username_to_search = kw['required_acc_to_find']
-        # qty_req_posts = int(kw['qty_posts'])
+        self.username = 'qqq'
+        print('out')
+        # with webdriver.Firefox(executable_path=ABS_PATH_TO_GECKODRIVER) as browser:
+
+        bot = Bot()
+        bot.login(username=self.user_login, password=self.user_pass)
+        print('worked')
+
+        pass
+
+        # options = Options()
+        # options.add_argument('--disable-infobars')
+        # browser = webdriver.Chrome(executable_path=ABS_PATH_TO_CHROMEDRIVER, chrome_options=options, port=9515)
+        # # browser = webdriver.Firefox(executable_path=ABS_PATH_TO_GECKODRIVER)
+        # browser.quit()
+        # print('inside')
+        # executor_url = browser.command_executor._url
+        # session_id = browser.session_id
+        # print(session_id)
+        # print(browser)
+
+
+
         # required_link = f'https://www.instagram.com/{self.required_acc_to_find}'
-        print('required_link')
-        # with webdriver.Chrome(executable_path=ABS_PATH_TO_CHROMEDRIVER) as self.browser:
-        #     try:
-        self.browser.get(LINK)
-        print('inside', LINK)
-        self.browser.implicitly_wait(5)
+        # print(self.required_link, self.user_login)
+        # print('ss')
+        # browser = webdriver.Chrome(executable_path=ABS_PATH_TO_CHROMEDRIVER)
+        # print(browser)
+        # # with webdriver.Chrome(executable_path=ABS_PATH_TO_CHROMEDRIVER) as self.browser:
+        # #     try:
+        # self.browser.get(LINK)
+        # print('inside', LINK)
+        # self.browser.implicitly_wait(5)
 
                 # try:
                 #     self.browser.find_element_by_xpath(BTN_LOGIN).click()
@@ -95,8 +107,8 @@ class Instagram(models.Model):
             #
             # except Exception as e:
             #     print(e)
-            # time.sleep(20)
-            # browser.quit()
+        # time.sleep(10)
+        # browser.quit()
 
 # kw = {'user_login': 'nickolay.varvonets@gmail.com', 'user_pass': "Varvonets16", 'qty_posts': '3', 'required_acc_to_find': "varan_dimode"}
 # x = Instagram
