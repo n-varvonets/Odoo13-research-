@@ -33,6 +33,10 @@ class Instagram(models.Model):
     # id_post = fields.Char(string="ID of post", store=True, compute='')
     # img = fields.Char(string="URL img", store=True)
 
+    def update_post_instagram_data(self):
+        print('working cron')
+        # execute my code
+
 
     # @api.depends('qty_posts')
     def _get_posts_data(self):

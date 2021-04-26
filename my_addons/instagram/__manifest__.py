@@ -29,6 +29,7 @@
         'views/views.xml',
         'views/templates.xml',
         'data/data.xml',
+        'data/cron.xml',
         'views/instagram_form.xml'
     ],
     # only loaded in demonstration mode
