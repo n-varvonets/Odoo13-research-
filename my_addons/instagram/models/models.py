@@ -2,9 +2,9 @@
 from odoo import models, fields, api
 from json import loads
 from bs4 import BeautifulSoup as BS
-from selenium.webdriver.chrome.options import Options
+# from selenium.webdriver.chrome.options import Options
 from multiprocessing import Process
-from selenium import webdriver
+# from selenium import webdriver
 import time
 import os
 
@@ -13,7 +13,7 @@ import os
 import sys
 
 sys.path.append(os.path.join(sys.path[0], "../"))
-from instabot import Bot
+# from instabot import Bot
 
 parser = argparse.ArgumentParser(add_help=True)
 
@@ -38,15 +38,14 @@ class Instagram(models.Model):
     def _get_posts_data(self):
 
         self.post_data = 'hahaha'
-        self.username = 'qqq'
         print('out')
         # with webdriver.Firefox(executable_path=ABS_PATH_TO_GECKODRIVER) as browser:
 
-        bot = Bot()
-        bot.login(username=self.user_login, password=self.user_pass)
-        print('worked')
+        # bot = Bot()
+        # bot.login(username=self.user_login, password=self.user_pass)
+        # print('worked')
 
-        pass
+
 
         # options = Options()
         # options.add_argument('--disable-infobars')
