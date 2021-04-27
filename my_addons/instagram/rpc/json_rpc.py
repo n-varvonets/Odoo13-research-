@@ -16,13 +16,17 @@ def json_rpc(url, method, params):
     data = {
         "jsonrpc": "2.0",
         "method": method,
+
         "params": params,
         "id": random.randint(0, 1000000000),
     }
-    req = urllib.request.Request(url=url, data=json.dumps(data).encode(), headers={
+    print(data)
+    req = urllib.request.Request(url=url, data=json.dumps(data).encode(),  headers={
         "Content-Type": "application/json",
     })
+    print(req)
     reply = json.loads(urllib.request.urlopen(req).read().decode('UTF-8'))
+    print(reply)
     if reply.get("error"):
         raise Exception(reply["error"])
     return reply["result"]
@@ -34,11 +38,13 @@ def call(url, service, method, *args):
 
 # log in the given database
 url = "http://%s:%s/jsonrpc" % (HOST, PORT)
+print(url)  # http://localhost:8069/jsonrpc
+print(DB, USER, PASS)
 uid = call(url, "common", "login", DB, USER, PASS)
-print(url, uid)  # http://localhost:8069/jsonrpc False
+print(uid)  # False
 
-"""# create a new note
-args = {
+# create a new note
+"""args = {
     'memo': 'Test not from json rpc',
 }  # memo is required field for creating new record
 note_id = call(url, "object", "execute", DB, uid, PASS, 'note.note', 'create',args)  # note.note  модуль в который будем передавать новую запись методом криэйт и пердавая в args  наш словарь

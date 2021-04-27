@@ -8,16 +8,10 @@
             <field name="model">instagram.instagram</field>
             <field name="arch" type="xml">
                 <tree string="tree of inst posts">
-                    <field name="id"/>
+                    <field name="id" string="ID request"/>
                     <field name="username"/>
-                    <field name="post_data"/>
-                    <!--                    <field name="username"/>-->
-                    <!--                    <field name="user_login"/>-->
-                    <!--                    <field name="user_pass"/>-->
-                    <!--                    <field name="qty_posts"/>-->
-                    <!--                    <field name="required_acc_to_find"/>-->
-                    <!--                    <field name="id_post"/>-->
-                    <!--                    <field name="img"/>-->
+                    <field name="user_login"/>
+                    <field name="required_acc_to_find"/>
                 </tree>
             </field>
         </record>
@@ -31,9 +25,10 @@
                     <sheet>
                         <group>
                             <group>
+                                <field name="id" string="ID request"/>
+                                <field name="username"/>
                                 <field name="user_login"/>
                                 <field name="user_pass"/>
-                                <field name="post_data"/>
                             </group>
                             <group>
                                 <field name="qty_posts"/>
@@ -53,16 +48,11 @@
             <field name="model">instagram.instagram</field>
             <field name="arch" type="xml">
                 <tree string="tree of inst info">
+                    <field name="id" string="ID request"/>
                     <field name="username"/>
-                    <field name="post_data"/>
-
-                    <!--                    <field name="username"/>-->
-                    <!--                    <field name="user_login"/>-->
-                    <!--                    <field name="user_pass"/>-->
-                    <!--                    <field name="qty_posts"/>-->
-                    <!--                    <field name="required_acc_to_find"/>-->
-                    <!--                    <field name="id_post"/>-->
-                    <!--                    <field name="img"/>-->
+                    <field name="id_post"/>
+                    <field name="qty_posts"/>
+                    <field name="required_acc_to_find"/>
                 </tree>
             </field>
         </record>
@@ -75,10 +65,11 @@
                 <form string="form of inst info">
                     <sheet>
                         <group>
-                            <field name="username"/>
-                            <field name="user_login"/>
-                            <field name="user_pass"/>
-                            <field name="post_data"/>
+                            <field name="id" string="ID request"/>
+                            <field name="id_post"/>
+                            <field name="required_acc_to_find"/>
+                            <field name="qty_posts"/>
+                            <field name="img"/>
                         </group>
                     </sheet>
                 </form>
@@ -86,16 +77,16 @@
         </record>
 
 
-<!--   *********************************Menu and actions*********************************************************     -->
+        <!--   *********************************Menu and actions*********************************************************     -->
 
-<!--        action of the instagram menu(posts info)-->
+        <!--        action of the instagram menu(posts info)-->
         <record id="action_instagram_posts" model="ir.actions.act_window">
             <field name="name">Instagram(posts info)</field>
             <field name="type">ir.actions.act_window</field>
             <field name="res_model">instagram.instagram</field>
             <field name="view_mode">tree,form</field>
             <field name="context">{}</field>
-<!--            http://i.imgur.com/iCXRBHa.png-->
+            <!--            http://i.imgur.com/iCXRBHa.png-->
             <field name="view_ids"
                    eval="[(5, 0, 0),
                           (0, 0, {'view_mode': 'tree', 'view_id': ref('instagram.instagram_list_info')}),
@@ -112,9 +103,9 @@
             <field name="name">Instagram(data for searching posts)</field>
             <field name="type">ir.actions.act_window</field>
             <field name="res_model">instagram.instagram</field>
-<!--            <field name="view_type">tree</field>  -  это поле было убрано а последних изменениях-->
+            <!--            <field name="view_type">tree</field>  -  это поле было убрано а последних изменениях-->
             <field name="view_mode">tree,form</field>
-<!-- определяем что это действие в данной модели и модуле(файле) будет отображать заданные ниже вьюехи  http://i.imgur.com/Hg5L5ox.png-->
+            <!-- определяем что это действие в данной модели и модуле(файле) будет отображать заданные ниже вьюехи  http://i.imgur.com/Hg5L5ox.png-->
             <field name="context">{}</field>
             <field name="view_ids"
                    eval="[(5, 0, 0),

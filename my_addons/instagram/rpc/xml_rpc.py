@@ -51,6 +51,15 @@ new_contact = models.execute_kw(db, uid, password, 'res.partner', 'create', [{'n
 print('New contact ID....', new_contact)
 
 
+"""Update records"""
+dont_know = models.execute_kw(db, uid, password, 'res.partner', 'write', [[partner_ids], {
+    'name': "Newer partner"
+}])
+# get record name after having changed it
+dont_know_o = models.execute_kw(db, uid, password, 'res.partner', 'name_get', [[partner_ids]])
+print('dont_know', dont_know, dont_know_o)
+
+
 
 
 
